@@ -52,7 +52,7 @@ class _LoginFormState extends State<LoginForm> {
     print('Email: $email & Password: $password');
     try{
       final userCredentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      PostsScreen.navigateTo(context);
+      Navigator.of(context).pushReplacementNamed(PostsScreen.routeName);
       print(userCredentials.user?.uid);
     }
     catch(e){

@@ -1,6 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_avance_firebase/core/extensions/string_extensions.dart';
 import 'package:flutter_avance_firebase/post_screen/modify_post_screen.dart';
-import 'package:flutter_avance_firebase/utils/posted_ago.dart';
 import 'package:flutter_avance_firebase/widget/error_widget.dart';
 import 'package:flutter_avance_firebase/widget/loading_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +36,13 @@ class _PostsScreenState extends State<PostsScreen> {
     final status = context.watch<PostsBloc>().state.status;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Post list"),
+        title: Row(
+          children: [
+            Text("Post list"),
+            SizedBox(width: 15),
+            ElevatedButton(onPressed: ()=>{exit(1)}, child: Text("Crash appp here")),
+          ],
+        ),
       ),
       body: _buildList(context, posts,status),
       floatingActionButton: FloatingActionButton(
@@ -83,7 +91,7 @@ class _PostsScreenState extends State<PostsScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  "Posted ${timeAgo(post.timestamp ?? DateTime.now().millisecondsSinceEpoch)}",
+                  "Posted ${post.date.toEuroDate()}",
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_avance_firebase/core/repositories/posts/posts_data_source.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/post.dart';
 
@@ -8,18 +9,16 @@ class FirebaseDataSource extends PostsDataSource {
 
   @override
   Future<Post> addPost(String title,String content) async {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
+
     final docRef = await postsCollection.add({
       'title': title,
       'content': content,
-      'timestamp':timestamp,
     });
 
     return Post(
       id: docRef.id,
       title: title,
       content: content,
-      timestamp: timestamp,
     );
   }
 
@@ -33,7 +32,7 @@ class FirebaseDataSource extends PostsDataSource {
         id: doc.id,
         title: data['title'],
         content: data['content'],
-        timestamp: data['timestamp'],
+        date: data['date'],
       );
     }).toList();
   }
@@ -45,7 +44,6 @@ class FirebaseDataSource extends PostsDataSource {
     await docRef.update({
       'title': post.title,
       'content': post.content,
-      'timestamp': post.timestamp,
     });
 
     return post;

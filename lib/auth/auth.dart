@@ -8,25 +8,11 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(FirebaseAuth.instance.currentUser != null){
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacementNamed(PostsScreen.routeName);
-      });
-    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Authentication'),
       ),
-      body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context,snapshot) {
-            final user = snapshot.data;
-            if(user == null){
-              return LoginForm();
-            }
-            return SizedBox();
-          }
-      )
+      body: LoginForm()
     );
   }
 }

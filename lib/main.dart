@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_avance_firebase/auth/auth.dart';
@@ -20,13 +21,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   if (kDebugMode) {
     try {
       final localhost = switch (defaultTargetPlatform) {
         TargetPlatform.android => '10.0.2.2', _ => 'localhost',
       };
-      FirebaseFirestore.instance.useFirestoreEmulator(localhost, 8081);
+      FirebaseFirestore.instance.useFirestoreEmulator(localhost, 8080);
       await FirebaseAuth.instance.useAuthEmulator(localhost, 9099);
     }
     catch (e) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_avance_firebase/widget/loading_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../core/blocs/posts_bloc/posts_bloc.dart';
 import '../core/models/post.dart';
@@ -44,7 +45,7 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
       listener: (context, state) {
         if (state.updateStatus == PostsStatus.success) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Post added successfully")),
+            const SnackBar(content: Text("Post updated successfully")),
           );
           Navigator.of(context).pop();
         } else if (state.updateStatus == PostsStatus.error) {
@@ -108,11 +109,14 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                   return;
                 }
 
+                final now = DateTime.now();
+                final formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
                 final updatedPost = Post(
                   id: widget.post.id,
                   title: titleController.text,
                   content: contentController.text,
-                  timestamp: DateTime.now().millisecondsSinceEpoch,
+                  date: formattedDate,
                 );
 
                 context.read<PostsBloc>().add(UpdatePost(updatedPost));

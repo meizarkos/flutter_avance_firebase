@@ -1,7 +1,9 @@
 Prévu pour être lancé avec l'émulateur firebase
 
-Port firestore : 8081
+Port firestore : 8080
 Port auth : 9099
+
+Run : firebase emulators:start
 
 Seul l'émulateur android est set up dans le main.dart
 Il faut donc lancer lancer l'application sur l'émulateur android
