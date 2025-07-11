@@ -11,3 +11,9 @@ Run : firebase emulators:start
 
 Seul l'émulateur android est set up dans le main.dart
 Il faut donc lancer lancer l'application sur l'émulateur android
+
+Go to Android Studio :
+Lancer un émulateur
+Sélectionner ce dernier
+flutter pub get
+flutter run
